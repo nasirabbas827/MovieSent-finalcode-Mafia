@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MovieSent - Sentiment Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body { padding: 20px; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .positive { background-color: #d4edda; color: #155724; }
+        .negative { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">MovieSent</h1>
+        <h3 class="text-center mb-4">Dual Approach Sentiment Analysis</h3>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/predict" method="POST">
+                            <div class="mb-3">
+                                <label for="reviewText" class="form-label">Enter Movie Review:</label>
+                                <textarea class="form-control" id="reviewText" name="review" rows="5" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Select Model:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="model_type" id="lrModel" value="lr" checked />
+                                    <label class="form-check-label" for="lrModel">Logistic Regression</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="model_type" id="lstmModel" value="lstm" />
+                                    <label class="form-check-label" for="lstmModel">LSTM</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Analyze Sentiment</button>
+                        </form>
+
+                        {% if sentiment %}
+                        <div id="resultContainer" class="result {{ sentiment }}">
+                            <h4>Analysis Result</h4>
+                            <p><strong>Sentiment:</strong> {{ sentiment }}</p>
+                            <p><strong>Confidence:</strong> {{ (confidence * 100) | round(2) }}%</p>
+                            <p><strong>Model Used:</strong> {{ model }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
